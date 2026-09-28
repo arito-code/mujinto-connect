@@ -33,4 +33,6 @@
   --radius: var(--space-3);
   --motion-duration-instant: 200ms;
   --content-width: 960px;
+  --header-h: 5.5rem;
+  --list-chrome: 16rem;
 }

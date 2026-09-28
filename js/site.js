@@ -163,31 +163,112 @@
     drawRadars(app);
   }
 
+  function normalizeQuery(value) {
+    return String(value || "").toLocaleLowerCase().replace(/\s+/g, "");
+  }
+
+  function memberCard(member) {
+    var card = el("a", "member-card");
+    card.href = "member.html?id=" + encodeURIComponent(member.id);
+    var head = el("div", "card-head");
+    var titles = el("div");
+    titles.append(el("h2", "card-name", member.name), el("p", "role", member.role));
+    head.append(monogram(member.name), titles);
+    card.append(head, el("p", "card-summary", member.summary), radarBlock(member, false), el("span", "card-action", "紹介を見る"));
+    card.dataset.haystack = normalizeQuery([member.name, member.role, member.summary].join(" "));
+    return card;
+  }
+
+  function fitListChrome() {
+    var header = document.querySelector(".site-header");
+    var tools = document.querySelector(".list-tools");
+    if (!header || !tools) return;
+    var headerH = header.getBoundingClientRect().height;
+    var chrome = headerH + tools.getBoundingClientRect().height;
+    document.documentElement.style.setProperty("--header-h", headerH + "px");
+    document.documentElement.style.setProperty("--list-chrome", chrome + "px");
+  }
+
   function renderList() {
     document.title = "メンバー | 無人島 Connect";
     var main = el("main", "site-main");
     main.id = "main";
-    main.append(el("h1", "page-title", "メンバー"));
 
     if (!members.length) {
+      main.append(el("h1", "page-title", "メンバー"));
       main.append(el("p", "empty-copy", "メンバーはまだいません。"));
       mount(main);
       return;
     }
 
-    var grid = el("div", "member-grid");
-    members.forEach(function (member) {
-      var card = el("a", "member-card");
-      card.href = "member.html?id=" + encodeURIComponent(member.id);
-      var head = el("div", "card-head");
-      var titles = el("div");
-      titles.append(el("h2", "card-name", member.name), el("p", "role", member.role));
-      head.append(monogram(member.name), titles);
-      card.append(head, el("p", "card-summary", member.summary), radarBlock(member, false), el("span", "card-action", "紹介を見る"));
-      grid.append(card);
+    var tools = el("div", "list-tools");
+    tools.append(el("h1", "page-title", "メンバー"));
+
+    var form = el("form", "member-search");
+    form.setAttribute("role", "search");
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
     });
-    main.append(grid);
+
+    var label = el("label", "search-label", "メンバーを検索");
+    label.setAttribute("for", "member-query");
+    var input = document.createElement("input");
+    input.className = "search-input";
+    input.id = "member-query";
+    input.type = "search";
+    input.name = "q";
+    input.placeholder = "名前や役割";
+    input.setAttribute("autocomplete", "off");
+    input.setAttribute("enterkeyhint", "search");
+    input.setAttribute("aria-controls", "member-grid");
+    input.setAttribute("aria-describedby", "member-search-status");
+
+    var status = el("p", "search-status");
+    status.id = "member-search-status";
+    status.setAttribute("aria-live", "polite");
+
+    form.append(label, status, input);
+    tools.append(form);
+
+    var grid = el("div", "member-grid");
+    grid.id = "member-grid";
+    var cards = members.map(function (member) {
+      var card = memberCard(member);
+      grid.append(card);
+      return card;
+    });
+
+    var empty = el("p", "empty-copy", "該当するメンバーはいません。");
+    empty.hidden = true;
+
+    function applyFilter(resetScroll) {
+      var query = normalizeQuery(input.value);
+      var count = 0;
+      cards.forEach(function (card) {
+        var show = !query || card.dataset.haystack.indexOf(query) !== -1;
+        card.hidden = !show;
+        if (show) count += 1;
+      });
+      status.textContent = (query ? "" : "全") + count + "人";
+      empty.hidden = count !== 0;
+      if (resetScroll) window.scrollTo(0, 0);
+    }
+
+    input.addEventListener("input", function () {
+      applyFilter(true);
+    });
+    applyFilter(false);
+
+    main.append(tools, grid, empty);
     mount(main);
+    fitListChrome();
+    window.addEventListener("resize", fitListChrome);
+    if (window.ResizeObserver) {
+      var observer = new ResizeObserver(fitListChrome);
+      var header = document.querySelector(".site-header");
+      if (header) observer.observe(header);
+      observer.observe(tools);
+    }
   }
 
   function renderMissing() {
