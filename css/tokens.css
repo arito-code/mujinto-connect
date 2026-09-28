@@ -1,0 +1,36 @@
+:root {
+  --color-text-primary: #102f35;
+  --color-text-secondary: #ffffff;
+  --color-text-tertiary: #52696d;
+  --color-text-inverse: #2f7d65;
+  --color-surface-base: #000000;
+  --color-surface-muted: #f7f6f1;
+  --color-surface-strong: #092d36;
+  --color-surface-card: var(--color-text-secondary);
+  --color-focus: var(--color-text-primary);
+
+  --font-family-primary: "Yu Gothic UI", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 17px;
+  --font-size-2xl: 21px;
+  --font-size-3xl: 46.08px;
+  --font-size-4xl: 53.76px;
+  --font-weight-base: 400;
+  --font-weight-strong: 700;
+  --font-line-height-base: 1.7;
+
+  --space-1: 10px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 18px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 30px;
+  --space-8: 32px;
+
+  --radius: var(--space-3);
+  --motion-duration-instant: 200ms;
+  --content-width: 960px;
+}
