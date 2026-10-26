@@ -202,7 +202,8 @@
     }
 
     var tools = el("div", "list-tools");
-    tools.append(el("h1", "page-title", "メンバー"));
+    var heading = el("h1", "visually-hidden", "メンバー");
+    tools.append(heading);
 
     var form = el("form", "member-search");
     form.setAttribute("role", "search");
