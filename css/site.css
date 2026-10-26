@@ -555,17 +555,69 @@ body[data-page="list"] .site-main > .page-title {
 }
 
 @media (max-width: 720px) {
-  .member-grid {
-    grid-template-columns: 1fr;
+  body[data-page="list"] .member-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: calc(var(--space-4) * 0.7);
   }
 
-  .member-card .radar-panel {
-    grid-template-columns: 1fr;
+  body[data-page="list"] .member-card {
+    gap: calc(var(--space-3) * 0.7);
+    padding: calc(var(--space-5) * 0.7);
   }
 
-  .member-card .radar-chart {
-    width: min(100%, 180px);
+  body[data-page="list"] .member-card .card-head {
+    gap: calc(var(--space-3) * 0.7);
+  }
+
+  body[data-page="list"] .member-card .monogram {
+    width: calc(var(--space-8) * 0.7);
+    height: calc(var(--space-8) * 0.7);
+    font-size: calc(var(--font-size-lg) * 0.7);
+  }
+
+  body[data-page="list"] .member-card .card-name {
+    font-size: calc(var(--font-size-2xl) * 0.7);
+    line-height: 1.25;
+  }
+
+  body[data-page="list"] .member-card .role,
+  body[data-page="list"] .member-card .score-note {
+    font-size: calc(var(--font-size-sm) * 0.7);
+  }
+
+  body[data-page="list"] .member-card .card-summary {
+    font-size: calc(var(--font-size-lg) * 0.7);
+    line-height: 1.45;
+  }
+
+  body[data-page="list"] .member-card .radar-panel {
+    grid-template-columns: 1fr;
+    gap: calc(var(--space-3) * 0.7);
+  }
+
+  body[data-page="list"] .member-card .radar-chart {
+    width: min(100%, 126px);
     margin-inline: auto;
+  }
+
+  body[data-page="list"] .member-card .score-list li {
+    gap: calc(var(--space-2) * 0.7);
+    font-size: calc(var(--font-size-sm) * 0.7);
+    line-height: 1.35;
+  }
+
+  body[data-page="list"] .member-card .score-list span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  body[data-page="list"] .member-card .score-list strong {
+    font-size: calc(var(--font-size-lg) * 0.7);
+  }
+
+  body[data-page="list"] .member-card .card-action {
+    font-size: calc(var(--font-size-lg) * 0.7);
   }
 
   .site-header-inner {
