@@ -332,7 +332,7 @@
     var details = el("details", "hearing");
     var summary = el("summary", "hearing-summary", "ヒアリングの詳細");
     var body = el("div", "hearing-body");
-    body.append(el("p", "score-note", "15問への答えです。質問を選んだ理由のメモは載せていません。"));
+    body.append(el("p", "score-note", "質問と答えです。質問を選んだ理由のメモは載せていません。"));
     groups.forEach(function (group) {
       var block = el("section", "hearing-group");
       block.append(el("h2", "section-title", group.group));
